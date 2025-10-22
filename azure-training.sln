@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "function-demo", "function-demo.csproj", "{E962E832-A267-55B4-6DBF-E3FD37E7FAE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure-training", "function-app/function-app.csproj", "{E962E832-A267-55B4-6DBF-E3FD37E7FAE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

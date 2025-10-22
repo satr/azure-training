@@ -1,25 +1,35 @@
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Extensions.ServiceBus;
 using Microsoft.Extensions.Logging;
-using Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs;
-using Microsoft.Azure.Functions.Worker.Extensions.Abstractions;
-using System.Threading.Tasks;
-
-namespace MyFuncApp.Functions;
 
 public class QueueProcessor
 {
     private readonly ILogger<QueueProcessor> _logger;
     public QueueProcessor(ILogger<QueueProcessor> logger) => _logger = logger;
 
-    // The returned string is written to the blob path below
     [Function("QueueProcessor")]
-    [BlobOutput("processed/{rand-guid}.txt", Connection = "AzureWebJobsStorage")]
-    public string Run(
+    [CosmosDBOutput(
+        databaseName: "OrdersDB",
+        containerName: "Orders",
+        Connection = "CosmosDBConnection")]
+    public object Run(
         [ServiceBusTrigger("orders", Connection = "ServiceBusConnection")] string message)
     {
-        _logger.LogInformation("QueueProcessor received: {Message}", message);
-        var processed = $"Processed: {message}";
-        return processed; // <-- becomes the blob content
+        _logger.LogInformation("QueueProcessor received5: {Message}", message);
+
+        try
+        {
+            return new
+            {
+                id = Guid.NewGuid().ToString(),
+                orderId = DateTime.UtcNow.Ticks.ToString(),
+                content = message,
+                processedAt = DateTime.UtcNow
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to return bound db-data");
+        }
+        return null;
     }
 }

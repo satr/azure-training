@@ -7,6 +7,11 @@
                 "excludedTypes": "Request"
             },
             "enableLiveMetricsFilters": true
-        }
+        },
+      "logLevel": {
+        "Default": "Information",
+        "Microsoft.Azure.Functions.Worker": "Debug",
+        "Microsoft.Azure.Functions.Worker.Extensions.CosmosDB": "Debug"
+      }
     }
 }
